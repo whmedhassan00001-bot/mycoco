@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Coco ✈️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --sky-top: #1a1a3e;
+    --sky-mid: #4a3a6b;
+    --sky-pink: #d468a4;
+    --sky-coral: #ff9a7a;
+    --sky-gold: #ffb347;
+    --ink: #2c2c54;
+    --accent: #ff6b9d;
+    --gold: #ffd93d;
+    --cream: #fff9f0;
+  }
+
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--ink);
+    background: var(--sky-top);
+  }
+
+  /* Sky background */
+  .sky-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    background: linear-gradient(to bottom,
+      #1a1a3e 0%,
+      #4a3a6b 20%,
+      #d468a4 45%,
+      #ff9a7a 70%,
+      #ffb347 100%
+    );
+  }
+
+  /* Sun glow */
+  .sun-glow {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 217, 61, 0.4) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: -4;
+    animation: sunPulse 8s ease-in-out infinite;
+  }
+  @keyframes sunPulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+    50% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+  }
+
+  /* Clouds */
+  .clouds-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -3;
+    overflow: hidden;
+  }
+  .cloud {
+    position: absolute;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    filter: blur(15px);
+    animation: cloudDrift linear infinite;
+  }
+  @keyframes cloudDrift {
+    from { transform: translateX(-400px); }
+    to { transform: translateX(calc(100vw + 400px)); }
+  }
+
+  /* Flying airplane */
+  .flying-airplane {
+    position: fixed;
+    top: 15%;
+    left: -120px;
+    font-size: 55px;
+    z-index: 5;
+    animation: flyAcross 16s linear infinite;
+    pointer-events: none;
+    filter: drop-shadow(0 6px 15px rgba(0,0,0,0.4));
+    line-height: 1;
+  }
+  .flying-airplane::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85));
+    transform: translateY(-50%);
+    border-radius: 3px;
+    box-shadow: 0 0 12px rgba(255,255,255,0.5);
+  }
+  @keyframes flyAcross {
+    0% { transform: translate(0, 0) rotate(-8deg); opacity: 0; }
+    8% { opacity: 1; }
+    92% { opacity: 1; }
+    100% { transform: translate(calc(100vw + 200px), -100px) rotate(-8deg); opacity: 0; }
+  }
+
+  /* Paper planes container */
+  .paper-planes-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    overflow: hidden;
+  }
+  .paper-plane {
+    position: absolute;
+    bottom: -60px;
+    animation: paperPlaneFly linear forwards;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+  }
+  @keyframes paperPlaneFly {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-115vh) translateX(60px) rotate(360deg); opacity: 0; }
+  }
+
+  /* Music button */
+  .music-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 25px rgba(255,107,157,0.4);
+    transition: all 0.3s;
+  }
+  .music-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent);
+    color: white;
+  }
+  .music-btn.playing {
+    background: var(--accent);
+    color: white;
+    animation: musicPulse 2s ease-in-out infinite;
+  }
+  .music-btn.playing .icon {
+    animation: spin 3s linear infinite;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes musicPulse {
+    0%, 100% { box-shadow: 0 8px 25px rgba(255,107,157,0.4); }
+    50% { box-shadow: 0 8px 40px rgba(255,107,157,0.8); }
+  }
+
+  /* Main */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 4rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 3rem 1rem 3rem;
+    animation: fadeInUp 1.5s ease both;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 0.5rem 1.3rem;
+    border-radius: 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .hero-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(4rem, 14vw, 9rem);
+    font-weight: 400;
+    line-height: 0.95;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #ffd93d 40%, #ffb347 70%, #ff6b9d 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineText 6s linear infinite;
+    filter: drop-shadow(0 4px 30px rgba(255,107,157,0.4));
+  }
+  @keyframes shineText {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+  .hero-subtitle {
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    color: rgba(255,255,255,0.95);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+  }
+  .hero-subtitle .plane {
+    display: inline-block;
+    color: var(--gold);
+    animation: planeBob 2s ease-in-out infinite;
+    margin: 0 0.4rem;
+  }
+  @keyframes planeBob {
+    0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+    50% { transform: translate(3px, -4px) rotate(5deg); }
+  }
+
+  /* Boarding Pass Counter */
+  .boarding-pass-section {
+    padding: 2rem 0 3rem;
+    animation: fadeInUp 1.5s 0.3s ease both;
+  }
+  .bp-section-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Cinzel', serif;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .bp-section-label::before, .bp-section-label::after {
+    content: '';
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  }
+
+  .boarding-pass {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    max-width: 850px;
+    margin: 0 auto;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.4),
+      0 0 60px rgba(255,107,157,0.2);
+    overflow: hidden;
+    position: relative;
+  }
+  .bp-main {
+    flex: 1;
+    padding: 1.8rem 2rem;
+    position: relative;
+    min-width: 0;
+  }
+  .bp-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .airline-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+  }
+  .bp-class {
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .bp-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+  .bp-city {
+    text-align: left;
+  }
+  .bp-city-end {
+    text-align: right;
+  }
+  .bp-label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    color: #999;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+  .bp-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .bp-arrow {
+    font-size: 1.8rem;
+    color: var(--accent);
+    animation: planeBob 3s ease-in-out infinite;
+  }
+
+  .bp-counter {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .bp-time {
+    flex: 1;
+    background: var(--ink);
+    border-radius: 10px;
+    padding: 0.8rem 0.3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .bp-time::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+  }
+  .bp-num {
+    font-family: 'Courier New', 'Cinzel', monospace;
+    font-size: clamp(1.4rem, 4.5vw, 2rem);
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 15px rgba(255,217,61,0.4);
+    position: relative;
+    z-index: 1;
+  }
+  .bp-unit {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    position: relative;
+    z-index: 1;
+  }
+  .bp-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #888;
+    text-align: center;
+  }
+  .bp-note strong {
+    color: var(--accent);
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  /* Stub (right side of boarding pass) */
+  .bp-stub {
+    width: 190px;
+    background: linear-gradient(135deg, var(--accent), var(--sky-coral));
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    color: white;
+    border-left: 2px dashed rgba(255,255,255,0.5);
+  }
+  .bp-stub::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: 24px;
+    height: 24px;
+    background: var(--sky-pink); /* this won't match perfectly but close */
+    border-radius: 50%;
+  }
+  .bp-stub-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .bp-barcode {
+    width: 100%;
+    height: 50px;
+    background: repeating-linear-gradient(90deg, white 0 2px, transparent 2px 4px, white 4px 5px, transparent 5px 8px, white 8px 11px, transparent 11px 13px);
+    border-radius: 4px;
+    margin: 0.5rem 0;
+  }
+  .bp-stub-info {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+  }
+  .bp-stub-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+  }
+  .bp-stub-row span:first-child {
+    opacity: 0.7;
+  }
+  .bp-stub-row span:last-child {
+    font-weight: 600;
+  }
+  .bp-stub-date {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-align: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    width: 100%;
+  }
+
+  /* Gallery - Postcards */
+  .gallery {
+    padding: 3rem 0;
+    animation: fadeInUp 1.5s 0.5s ease both;
+  }
+  .gallery-title {
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 400;
+    color: white;
+    margin-bottom: 3rem;
+    text-shadow: 0 4px 25px rgba(0,0,0,0.3);
+    filter: drop-shadow(0 2px 15px rgba(255,107,157,0.5));
+  }
+  .postcards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem 2rem;
+    padding: 1rem 0;
+  }
+  .postcard {
+    background: white;
+    padding: 1rem 1rem 3.2rem;
+    border-radius: 4px;
+    transform: rotate(var(--rot, 0deg));
+    box-shadow:
+      0 25px 50px rgba(0,0,0,0.35),
+      0 10px 20px rgba(0,0,0,0.2);
+    width: clamp(220px, 30vw, 300px);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: postcardFloat 6s ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes postcardFloat {
+    0%, 100% { transform: rotate(var(--rot, 0deg)) translateY(0); }
+    50% { transform: rotate(calc(var(--rot, 0deg) + 1deg)) translateY(-10px); }
+  }
+  .postcard:hover {
+    transform: rotate(0deg) scale(1.06) translateY(-12px);
+    animation-play-state: paused;
+    box-shadow:
+      0 35px 70px rgba(0,0,0,0.4),
+      0 15px 30px rgba(255,107,157,0.3);
+  }
+  .postcard img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 2px;
+    background: linear-gradient(135deg, #4a3a6b, #1a1a3e);
+  }
+  .postcard .stamp {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 52px;
+    height: 62px;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    border: 2px dashed white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transform: rotate(8deg);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 2;
+  }
+  .postcard .caption {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.35rem;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* Message - Airmail letter */
+  .message-section {
+    padding: 3rem 0;
+    animation: fadeInUp 1.5s 0.7s ease both;
+  }
+  .airmail-letter {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--cream);
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 8px solid;
+    border-image: repeating-linear-gradient(45deg,
+      var(--accent) 0 15px,
+      white 15px 30px,
+      #1a4a8f 30px 45px,
+      white 45px 60px) 8;
+    box-shadow:
+      0 30px 70px rgba(0,0,0,0.4),
+      0 0 50px rgba(255,107,157,0.2);
+    position: relative;
+    text-align: center;
+  }
+  .letter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #ccc;
+  }
+  .letter-to {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .letter-stamp {
+    width: 55px;
+    height: 65px;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    border: 2px dashed white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    transform: rotate(8deg);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+  }
+  .letter-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+    line-height: 1.9;
+    color: #4a3a3a;
+    font-style: italic;
+    font-weight: 400;
+    min-height: 120px;
+    text-align: left;
+  }
+  .letter-text::after {
+    content: '✒';
+    color: var(--accent);
+    animation: blink 1s step-end infinite;
+    margin-left: 4px;
+    font-style: normal;
+  }
+  .letter-text.done::after {
+    display: none;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .letter-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #ccc;
+    text-align: right;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.4rem;
+    color: var(--accent);
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  footer .plane-footer {
+    display: inline-block;
+    color: var(--gold);
+    animation: planeBob 2s ease-in-out infinite;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    main { padding: 2rem 1rem 3rem; }
+    .hero { padding: 2rem 0.5rem 2rem; }
+    .bp-main { padding: 1.5rem 1.3rem; }
+    .bp-stub { width: 150px; padding: 1.2rem 0.8rem; }
+    .postcard img { height: 220px; }
+    .postcard { width: min(80vw, 280px); }
+    .airmail-letter { padding: 1.8rem; }
+  }
+
+  @media (max-width: 600px) {
+    .bp-stub { display: none; }
+    .bp-main { padding: 1.3rem 1.2rem; }
+    .bp-route { flex-direction: column; text-align: center; gap: 0.5rem; }
+    .bp-city, .bp-city-end { text-align: center; }
+    .bp-arrow { transform: rotate(90deg); animation: none; }
+    .bp-counter { gap: 0.4rem; }
+    .bp-time { padding: 0.6rem 0.2rem; border-radius: 8px; }
+    .bp-num { font-size: 1.3rem; }
+    .bp-unit { font-size: 0.5rem; letter-spacing: 1px; }
+    .music-btn { width: 52px; height: 52px; top: 14px; right: 14px; font-size: 1.2rem; }
+    .flying-airplane { font-size: 42px; }
+    .letter-header { flex-direction: column; align-items: center; gap: 1rem; }
+  }
+
+  @media (max-width: 420px) {
+    .bp-num { font-size: 1.1rem; }
+    .bp-label { font-size: 0.55rem; }
+    .bp-value { font-size: 0.9rem; }
+    .bp-time { padding: 0.5rem 0.15rem; }
+    .bp-unit { font-size: 0.45rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky-bg"></div>
+<div class="sun-glow"></div>
+<div class="clouds-container" id="clouds"></div>
+<div class="flying-airplane">✈️</div>
+<div class="paper-planes-container" id="paperPlanes"></div>
+
+<button class="music-btn" id="musicBtn" title="Play / Pause music">
+  <span class="icon"><i class="fas fa-music"></i></span>
+</button>
+<audio id="bgMusic" loop preload="auto">
+  <source src="photo/Musicfofa.mpeg" type="audio/mpeg">
+</audio>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-badge">✦ boarding for love ✦</div>
+    <h1 class="hero-title">My Coco</h1>
+    <p class="hero-subtitle">
+      Every moment with you is a beautiful journey
+      <span class="plane">✈</span>
+    </p>
+  </section>
+
+  <section class="boarding-pass-section">
+    <div class="bp-section-label">Flight Duration</div>
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <div class="bp-top">
+          <span class="airline-name">❤ LOVE AIRLINES</span>
+          <span class="bp-class">FIRST CLASS</span>
+        </div>
+
+        <div class="bp-route">
+          <div class="bp-city">
+            <span class="bp-label">FROM</span>
+            <span class="bp-value">Forever</span>
+          </div>
+          <div class="bp-arrow">✈</div>
+          <div class="bp-city bp-city-end">
+            <span class="bp-label">TO</span>
+            <span class="bp-value">Always</span>
+          </div>
+        </div>
+
+        <div class="bp-counter">
+          <div class="bp-time">
+            <div class="bp-num" id="days">0</div>
+            <div class="bp-unit">Days</div>
+          </div>
+          <div class="bp-time">
+            <div class="bp-num" id="hours">0</div>
+            <div class="bp-unit">Hours</div>
+          </div>
+          <div class="bp-time">
+            <div class="bp-num" id="minutes">0</div>
+            <div class="bp-unit">Min</div>
+          </div>
+          <div class="bp-time">
+            <div class="bp-num" id="seconds">0</div>
+            <div class="bp-unit">Sec</div>
+          </div>
+        </div>
+
+        <div class="bp-note">
+          Since takeoff on <strong>October 4 · 7:16 AM</strong>
+        </div>
+      </div>
+
+      <div class="bp-stub">
+        <div class="bp-stub-title">BOARDING<br>PASS</div>
+        <div class="bp-barcode"></div>
+        <div class="bp-stub-info">
+          <div class="bp-stub-row">
+            <span>FLIGHT</span>
+            <span>LOVE 04</span>
+          </div>
+          <div class="bp-stub-row">
+            <span>SEAT</span>
+            <span>27A</span>
+          </div>
+          <div class="bp-stub-row">
+            <span>GATE</span>
+            <span>❤</span>
+          </div>
+        </div>
+        <div class="bp-stub-date">4 OCT · 7:16</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <h2 class="gallery-title">Postcards From My Heart</h2>
+    <div class="postcards-container">
+      <div class="postcard" style="--rot: -5deg; --delay: 0s;">
+        <img src="photo/fofa1.jpeg" alt="Coco 1" onerror="this.style.background='linear-gradient(135deg,#4a3a6b,#1a1a3e)'; this.alt='Add fofa1.jpeg';">
+        <div class="stamp">✈</div>
+        <div class="caption">Your smile ❤</div>
+      </div>
+      <div class="postcard" style="--rot: 4deg; --delay: 0.8s;">
+        <img src="photo/fofa2.jpeg" alt="Coco 2" onerror="this.style.background='linear-gradient(135deg,#4a3a6b,#1a1a3e)'; this.alt='Add fofa2.jpeg';">
+        <div class="stamp">💌</div>
+        <div class="caption">My favorite ✨</div>
+      </div>
+      <div class="postcard" style="--rot: -3deg; --delay: 1.6s;">
+        <img src="photo/fofa3.jpeg" alt="Coco 3" onerror="this.style.background='linear-gradient(135deg,#4a3a6b,#1a1a3e)'; this.alt='Add fofa3.jpeg';">
+        <div class="stamp">❤</div>
+        <div class="caption">Forever 💕</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="message-section">
+    <div class="airmail-letter">
+      <div class="letter-header">
+        <span class="letter-to">Dear Coco,</span>
+        <div class="letter-stamp">✈</div>
+      </div>
+      <p class="letter-text" id="loveText"></p>
+      <div class="letter-footer">with love, always</div>
+    </div>
+  </section>
+
+  <footer>
+    Made with <span class="plane-footer">✈</span> just for you
+  </footer>
+
+</main>
+
+<script>
+  // ============================================
+  // 1) COUNTER — From October 4, 7:16 AM (auto-year)
+  // ============================================
+  const now = new Date();
+  const thisYear = now.getFullYear();
+  const anniversaryThisYear = new Date(thisYear, 9, 4, 7, 16, 0);
+  // 9 = October (0-indexed)
+  const START_DATE = (now < anniversaryThisYear
+    ? new Date(thisYear - 1, 9, 4, 7, 16, 0)
+    : anniversaryThisYear
+  ).getTime();
+
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateCounter() {
+    const diff = Math.max(0, Date.now() - START_DATE);
+    daysEl.textContent = Math.floor(diff / 86400000);
+    hoursEl.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+    minutesEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
+    secondsEl.textContent = pad(Math.floor((diff % 60000) / 1000));
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  // ============================================
+  // 2) CLOUDS
+  // ============================================
+  const cloudsContainer = document.getElementById('clouds');
+  function createCloud() {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    const width = Math.random() * 250 + 150;
+    const height = Math.random() * 40 + 40;
+    cloud.style.width = width + 'px';
+    cloud.style.height = height + 'px';
+    cloud.style.top = Math.random() * 60 + 10 + '%';
+    cloud.style.animationDuration = Math.random() * 40 + 50 + 's';
+    cloud.style.animationDelay = -Math.random() * 30 + 's';
+    cloudsContainer.appendChild(cloud);
+    // note: don't remove — they're reused by animation loop
+  }
+  for (let i = 0; i < 5; i++) createCloud();
+
+  // ============================================
+  // 3) PAPER PLANES (floating up)
+  // ============================================
+  const paperPlanesContainer = document.getElementById('paperPlanes');
+  const planeEmojis = ['✈️', '💌', '💕', '💖', '🌸', '✨', '💝'];
+
+  function createPaperPlane() {
+    const p = document.createElement('div');
+    p.className = 'paper-plane';
+    p.textContent = planeEmojis[Math.floor(Math.random() * planeEmojis.length)];
+    p.style.left = Math.random() * 100 + '%';
+    p.style.fontSize = (Math.random() * 16 + 16) + 'px';
+    const duration = Math.random() * 8 + 10;
+    p.style.animationDuration = duration + 's';
+    paperPlanesContainer.appendChild(p);
+    setTimeout(() => p.remove(), duration * 1000);
+  }
+  setInterval(createPaperPlane, 900);
+  for (let i = 0; i < 6; i++) setTimeout(createPaperPlane, i * 300);
+
+  // ============================================
+  // 4) TYPEWRITER MESSAGE
+  // ============================================
+  const loveTextEl = document.getElementById('loveText');
+  const message = "Wherever life takes us, my favorite place is always right next to you. You are my destination, my journey, and my home. Every day with you is a new adventure I never want to end. You are my forever co-pilot, my beautiful Coco.";
+
+  let idx = 0;
+  function typeMessage() {
+    if (idx < message.length) {
+      loveTextEl.textContent += message.charAt(idx);
+      idx++;
+      setTimeout(typeMessage, 45);
+    } else {
+      loveTextEl.classList.add('done');
+    }
+  }
+  setTimeout(typeMessage, 2200);
+
+  // ============================================
+  // 5) MUSIC PLAYER
+  // ============================================
+  const musicBtn = document.getElementById('musicBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  bgMusic.volume = 0.5;
+  let isPlaying = false;
+
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (isPlaying) {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      isPlaying = false;
+    } else {
+      bgMusic.play().then(() => {
+        musicBtn.classList.add('playing');
+        isPlaying = true;
+      }).catch(() => {});
+    }
+  });
+
+  function tryAutoPlay() {
+    bgMusic.play().then(() => {
+      musicBtn.classList.add('playing');
+      isPlaying = true;
+      document.removeEventListener('click', tryAutoPlay);
+      document.removeEventListener('touchstart', tryAutoPlay);
+    }).catch(() => {});
+  }
+  document.addEventListener('click', tryAutoPlay);
+  document.addEventListener('touchstart', tryAutoPlay);
+
+  // ============================================
+  // 6) PHOTO LIGHTBOX
+  // ============================================
+  document.querySelectorAll('.postcard').forEach(card => {
+    card.addEventListener('click', () => {
+      const img = card.querySelector('img');
+      if (!img) return;
+
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed; inset: 0;
+        background: rgba(26, 26, 62, 0.92);
+        backdrop-filter: blur(20px);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 9999; cursor: zoom-out;
+        opacity: 0; transition: opacity 0.4s;
+        padding: 2rem;
+      `;
+
+      const bigImg = document.createElement('img');
+      bigImg.src = img.src;
+      bigImg.style.cssText = `
+        max-width: 90vw; max-height: 85vh;
+        border-radius: 8px;
+        border: 8px solid white;
+        box-shadow:
+          0 40px 100px rgba(0, 0, 0, 0.8),
+          0 0 80px rgba(255, 107, 157, 0.4);
+        transform: scale(0.85) rotate(-3deg);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      `;
+
+      overlay.appendChild(bigImg);
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
+        bigImg.style.transform = 'scale(1) rotate(0deg)';
+      });
+
+      overlay.addEventListener('click', () => {
+        overlay.style.opacity = '0';
+        bigImg.style.transform = 'scale(0.85) rotate(-3deg)';
+        setTimeout(() => overlay.remove(), 400);
+      });
+    });
+  });
+
+  // ============================================
+  // 7) SECONDS PULSE (subtle scale)
+  // ============================================
+  setInterval(() => {
+    secondsEl.animate(
+      [
+        { transform: 'scale(1)', color: '#ffd93d' },
+        { transform: 'scale(1.15)', color: '#ff6b9d' },
+        { transform: 'scale(1)', color: '#ffd93d' }
+      ],
+      { duration: 400, easing: 'ease-out' }
+    );
+  }, 1000);
+</script>
+</body>
+</html>

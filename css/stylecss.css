@@ -1,0 +1,73 @@
+body{
+    background-color: rgb(199, 197, 197);
+}
+.car {
+    position: relative;
+    width: 100px; /* عرض السيارة */
+    height: 40px; /* ارتفاع السيارة */
+    background-color: red; /* لون السيارة */
+    border-radius: 10px; /* حواف السيارة */
+    margin: 50px 50px; /* مسافة من الأعلى */
+    left: 0;
+
+    animation-name: change;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+.car::before {
+    content: '';
+    position: absolute;
+    top: -20px; /* موقع السقف */
+    left: 10px; /* موقع السقف */
+    width: 80px; /* عرض السقف */
+    height: 20px; /* ارتفاع السقف */
+    background-color: red; /* نفس لون السيارة */
+    border-radius: 10px; /* حواف السقف */
+}
+.wheel {
+    position: absolute;
+    bottom: -10px; /* موقع العجلات */
+    width: 20px; /* عرض العجلة */
+    height: 20px; /* ارتفاع العجلة */
+    background-color: black; /* لون العجلة */
+    border-radius: 50%; /* شكل دائري */
+}
+.wheel.left {
+    left: 10px; /* موضع العجلة اليسرى */
+}
+.wheel.right {
+    right: 10px; /* موضع العجلة اليمنى */
+}
+@keyframes change {
+    100%{
+        left: 1180px;
+    }
+}
+.car2{
+    animation-delay: 2s;
+    background-color: blue;
+}
+.car2::before {   background-color: blue;}
+.car3{
+    animation-delay: 4s;
+    background-color: palevioletred;
+}
+.car3::before {   background-color: palevioletred;}
+.car4{
+    animation-delay: 6s;
+    background-color: plum;
+}
+.car4::before {   background-color: plum;}
+.car5{
+    animation-delay: 10s;
+    background-color: papayawhip;
+}
+.car5::before {   background-color: papayawhip;}
+.car6{
+    animation-delay: 8s;
+    background-color:powderblue;
+}
+.car6::before {   background-color:powderblue;}
+.car2,.car4,.car5{
+    animation-direction:reverse;
+}
